@@ -26,7 +26,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-accent-gold bg-bg-primary/95 backdrop-blur-md">
       <nav aria-label="Main" className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-4 px-5">
-        <a href="#home" aria-label="Joy Tattoo, back to top" className="flex flex-col leading-none">
+        <a href="#home" className="flex flex-col leading-none">
           <span className="font-heading text-2xl font-bold tracking-wide">{business.logo}</span>
           <span className="mt-1 font-tag text-[0.6rem] font-medium tracking-[0.25em] text-text-secondary">
             {business.logoTagline}
