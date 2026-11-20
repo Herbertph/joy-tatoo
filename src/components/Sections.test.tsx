@@ -7,14 +7,14 @@ import { Navbar } from './Navbar';
 import { Reviews } from './Reviews';
 
 describe('CareGuide', () => {
-  it('AC-19: "Before Your Session" is selected with its four items', () => {
+  it('TC-19 (AC-19): "Before Your Session" is selected with its four items', () => {
     render(<CareGuide />);
     expect(screen.getByRole('tab', { name: 'Before Your Session' })).toHaveAttribute('aria-selected', 'true');
     const panel = screen.getByRole('tabpanel');
     for (const item of careGuide.tabs[0].items) expect(within(panel).getByText(item.title)).toBeInTheDocument();
   });
 
-  it('AC-20: clicking "Healing & Aftercare" swaps the content', async () => {
+  it('TC-20 (AC-20): clicking "Healing & Aftercare" swaps the content', async () => {
     const user = userEvent.setup();
     render(<CareGuide />);
     await user.click(screen.getByRole('tab', { name: 'Healing & Aftercare' }));
@@ -24,7 +24,7 @@ describe('CareGuide', () => {
     expect(within(panel).queryByText(careGuide.tabs[0].items[0].title)).not.toBeInTheDocument();
   });
 
-  it('AC-20: Right arrow on the first tab selects the second', async () => {
+  it('TC-20 (AC-20): Right arrow on the first tab selects the second', async () => {
     const user = userEvent.setup();
     render(<CareGuide />);
     screen.getByRole('tab', { name: 'Before Your Session' }).focus();
@@ -36,7 +36,7 @@ describe('CareGuide', () => {
 });
 
 describe('Reviews', () => {
-  it('AC-21: shows three testimonials, each with one star rating label', () => {
+  it('TC-21 (AC-21): shows three testimonials, each with one star rating label', () => {
     render(<Reviews />);
     for (const r of reviews) {
       expect(screen.getByText(r.name)).toBeInTheDocument();
@@ -48,7 +48,7 @@ describe('Reviews', () => {
 });
 
 describe('Faq', () => {
-  it('AC-22: all 5 questions visible, all answers hidden', () => {
+  it('TC-22 (AC-22): all 5 questions visible, all answers hidden', () => {
     render(<Faq />);
     const questions = faqs.map((f) => screen.getByRole('button', { name: f.question }));
     expect(questions).toHaveLength(5);
@@ -56,7 +56,7 @@ describe('Faq', () => {
     expect(screen.queryByText(faqs[0].answer)).not.toBeInTheDocument();
   });
 
-  it('AC-23: click, Enter and Space toggle answers; several can be open', async () => {
+  it('TC-23 (AC-23): click, Enter and Space toggle answers; several can be open', async () => {
     const user = userEvent.setup();
     render(<Faq />);
     const q1 = screen.getByRole('button', { name: faqs[0].question });
@@ -77,7 +77,7 @@ describe('Faq', () => {
 });
 
 describe('Navbar mobile menu', () => {
-  it('AC-7: picking a link closes the menu', async () => {
+  it('TC-7 (AC-7): picking a link closes the menu', async () => {
     const user = userEvent.setup();
     render(<Navbar />);
     const button = screen.getByRole('button', { name: 'Open menu' });
@@ -88,7 +88,7 @@ describe('Navbar mobile menu', () => {
     expect(button).toHaveAttribute('aria-expanded', 'false');
   });
 
-  it('AC-7: Escape closes the menu and returns focus to the button', async () => {
+  it('TC-7 (AC-7): Escape closes the menu and returns focus to the button', async () => {
     const user = userEvent.setup();
     render(<Navbar />);
     const button = screen.getByRole('button', { name: 'Open menu' });

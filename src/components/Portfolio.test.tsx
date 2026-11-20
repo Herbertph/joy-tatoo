@@ -7,13 +7,13 @@ const cards = () => screen.getAllByRole('button', { name: /^Open / });
 const fineLine = portfolioItems.filter((i) => i.category === 'fine-line');
 
 describe('Portfolio', () => {
-  it('AC-8: starts on "All Work" with all 8 items', () => {
+  it('TC-8 (AC-8): starts on "All Work" with all 8 items', () => {
     render(<Portfolio />);
     expect(screen.getByRole('button', { name: 'All Work' })).toHaveAttribute('aria-pressed', 'true');
     expect(cards()).toHaveLength(8);
   });
 
-  it('AC-9: filters to Fine Line and back to All Work', async () => {
+  it('TC-9 (AC-9): filters to Fine Line and back to All Work', async () => {
     const user = userEvent.setup();
     render(<Portfolio />);
     await user.click(screen.getByRole('button', { name: 'Fine Line' }));
@@ -27,7 +27,7 @@ describe('Portfolio', () => {
     expect(cards()).toHaveLength(8);
   });
 
-  it('AC-10: shows the empty state for a category with no items', async () => {
+  it('TC-10 (AC-10): shows the empty state for a category with no items', async () => {
     const user = userEvent.setup();
     render(<Portfolio items={portfolioItems.filter((i) => i.category !== 'cover-up')} />);
     await user.click(screen.getByRole('button', { name: 'Cover-Ups' }));
@@ -35,7 +35,7 @@ describe('Portfolio', () => {
     expect(screen.queryByRole('list')).not.toBeInTheDocument();
   });
 
-  it('AC-11: each card has its title, style and "Request Similar Style" button, revealed on hover/focus', () => {
+  it('TC-11 (AC-11): each card has its title, style and "Request Similar Style" button, revealed on hover/focus', () => {
     render(<Portfolio />);
     const info = screen.getAllByTestId('card-info')[0];
     expect(within(info).getByText(portfolioItems[0].title)).toBeInTheDocument();
@@ -45,7 +45,7 @@ describe('Portfolio', () => {
     expect(info.className).toMatch(/group-focus-within:opacity-100/);
   });
 
-  it('AC-13: clicking a card opens a dialog with title, style and session time, focus inside', async () => {
+  it('TC-13 (AC-13): clicking a card opens a dialog with title, style and session time, focus inside', async () => {
     const user = userEvent.setup();
     render(<Portfolio />);
     await user.click(cards()[0]);
@@ -57,7 +57,7 @@ describe('Portfolio', () => {
     expect(document.body.style.overflow).toBe('hidden');
   });
 
-  it.each(['Escape', 'close button'])('AC-14: closes with %s and returns focus to the card', async (how) => {
+  it.each(['Escape', 'close button'])('TC-14 (AC-14): closes with %s and returns focus to the card', async (how) => {
     const user = userEvent.setup();
     render(<Portfolio />);
     const card = cards()[2];
@@ -68,7 +68,7 @@ describe('Portfolio', () => {
     expect(card).toHaveFocus();
   });
 
-  it('AC-14: closes when the backdrop is clicked', async () => {
+  it('TC-14 (AC-14): closes when the backdrop is clicked', async () => {
     const user = userEvent.setup();
     render(<Portfolio />);
     await user.click(cards()[1]);
@@ -76,7 +76,7 @@ describe('Portfolio', () => {
     await vi.waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   });
 
-  it('AC-15: next from the last fine-line item wraps to the first, within the filter', async () => {
+  it('TC-15 (AC-15): next from the last fine-line item wraps to the first, within the filter', async () => {
     const user = userEvent.setup();
     render(<Portfolio />);
     await user.click(screen.getByRole('button', { name: 'Fine Line' }));
@@ -89,7 +89,7 @@ describe('Portfolio', () => {
     expect(screen.getByRole('dialog', { name: fineLine[0].title })).toBeInTheDocument();
   });
 
-  it('AC-16: Tab and Shift+Tab keep focus inside the dialog', async () => {
+  it('TC-16 (AC-16): Tab and Shift+Tab keep focus inside the dialog', async () => {
     const user = userEvent.setup();
     render(<Portfolio />);
     await user.click(cards()[0]);
@@ -102,5 +102,18 @@ describe('Portfolio', () => {
       await user.tab({ shift: true });
       expect(dialog).toContainElement(document.activeElement as HTMLElement);
     }
+  });
+
+  it('TC-45 (FR-5): rapid filter switching ends on the last selected filter', async () => {
+    const user = userEvent.setup();
+    render(<Portfolio />);
+    for (const name of ['Black & Grey', 'Botanical & Floral', 'Cover-Ups', 'Traditional & Bold', 'All Work', 'Fine Line']) {
+      await user.click(screen.getByRole('button', { name }));
+    }
+    expect(screen.getByRole('button', { name: 'Fine Line' })).toHaveAttribute('aria-pressed', 'true');
+    for (const name of ['All Work', 'Black & Grey', 'Botanical & Floral', 'Traditional & Bold', 'Cover-Ups']) {
+      expect(screen.getByRole('button', { name })).toHaveAttribute('aria-pressed', 'false');
+    }
+    expect(cards()).toHaveLength(fineLine.length);
   });
 });
