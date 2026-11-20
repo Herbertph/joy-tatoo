@@ -7,10 +7,10 @@ export function Hero() {
       <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[55fr_45fr]">
         <div>
           <Eyebrow>{hero.eyebrow}</Eyebrow>
-          <h1 id="home-heading" className="mt-4 font-heading text-5xl font-bold leading-[1.05] md:text-6xl xl:text-7xl">
+          <h1 id="home-heading" className="mt-4 font-heading text-[2.6rem] font-bold leading-[1.05] sm:text-5xl md:text-6xl xl:text-7xl">
             {hero.titleLead} <span className="block text-accent-gold">{hero.titleAccent}</span>
           </h1>
-          <h2 className="mt-4 font-heading text-3xl font-semibold leading-tight md:text-4xl">{hero.subtitle}</h2>
+          <h2 className="mt-4 font-heading text-2xl font-semibold leading-tight sm:text-3xl md:text-4xl">{hero.subtitle}</h2>
           <p className="mt-6 max-w-xl text-text-secondary">{hero.text}</p>
           <div className="mt-8 flex flex-wrap gap-4">
             <a href="#booking" className={btnPrimary}>
@@ -26,7 +26,7 @@ export function Hero() {
           alt={hero.image.alt}
           width={900}
           height={1000}
-          className="aspect-[9/10] w-full rounded-md border border-border-subtle object-cover [mask-image:linear-gradient(to_right,transparent,black_18%)]"
+          className="aspect-[9/10] w-full rounded-md border border-border-subtle object-cover lg:[mask-image:linear-gradient(to_right,transparent,black_18%)]"
         />
       </div>
     </section>
