@@ -1,8 +1,8 @@
 # joy-tatoo
 
-instrucoes na primeira msg
+Website for Joy Tattoo, a boutique tattoo studio in Downtown Moncton, NB: one page that shows the studio's work and prices and collects consultation and quote requests.
 
-Built with a multi-agent pipeline: requirements analyst → developer → tester → pull request. A human reviews and merges every PR.
+Built by a multi-agent team: analyst (spec) → senior developer → front-end developer → senior QA → reviewer → pull request. A human reviews and merges every PR.
 
 ## Stack
 
